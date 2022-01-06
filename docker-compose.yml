@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+
+  rabbitmq:
+    container_name: "rabbitmq"
+    image: rabbitmq:3.8-management-alpine
+    environment:
+        - RABBITMQ_DEFAULT_USER=root
+        - RABBITMQ_DEFAULT_PASS=root
+    ports:
+        # AMQP protocol port
+        - '5672:5672'
+        # HTTP management UI
+        - '15672:15672'
+    # networks:
+    #     - rabbitmq_python
+    volumes:
+        - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+        - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+
+  worker:
+    build: worker
+    volumes:
+      - ./worker:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    # networks:
+    #   - rabbitmq_python
+    links:
+      - rabbitmq  
+    depends_on:
+      - rabbitmq
+
+  server:
+    build: server
+    volumes:
+      - ./server:/app
+    ports:
+      - 5000:5000
+    # networks:
+    #   - rabbitmq_python  
+    links:
+      - rabbitmq  
+    depends_on:
+      - rabbitmq
+
+  redis:
+    image: "redis:alpine"  
+
+# networks:
+#     rabbitmq_python:
+#         driver: bridge      
