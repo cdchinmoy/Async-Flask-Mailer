@@ -2,8 +2,8 @@
 ENDPOINT 1: http://localhost:5000/create-job/<email_address>
 
 ## Get the number of hit count:
-http://localhost:5000/hits
+ENDPOINT 2: http://localhost:5000/hits
 
 
-Docker Compose Commend:
+## Docker Compose Commend:
 docker-compose up --build
