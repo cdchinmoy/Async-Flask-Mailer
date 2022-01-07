@@ -1,6 +1,7 @@
 import pika
 import time
 import mail_fire
+import os
 
 sleepTime = 10
 print(' [*] Sleeping for ', sleepTime, ' seconds.')
@@ -8,8 +9,8 @@ time.sleep(10)
 
 print(' [*] Connecting to server ...')
 
-credentials = pika.PlainCredentials('root', 'root')
-parameters =  pika.ConnectionParameters('rabbitmq', credentials=credentials, heartbeat=5)
+credentials = pika.PlainCredentials(os.environ['RABBITMQ_USER'], os.environ['RABBITMQ_PASS'])
+parameters =  pika.ConnectionParameters(os.environ['RABBITMQ_HOST'], credentials=credentials, heartbeat=5)
 connection = pika.BlockingConnection(parameters)
 
 channel = connection.channel()

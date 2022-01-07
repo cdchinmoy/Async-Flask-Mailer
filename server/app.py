@@ -1,8 +1,8 @@
 from flask import Flask, jsonify
-import pika
 import redis
 import json
 import time
+import publisher
 
 app = Flask(__name__)
 
@@ -16,28 +16,9 @@ def index():
 @app.route('/create-job/<email>')
 def add(email):
     r.incr('create_job', amount=1)
-    try:
-        credentials = pika.PlainCredentials('root', 'root')
-        parameters =  pika.ConnectionParameters('rabbitmq', credentials=credentials, heartbeat=5)
-        connection = pika.BlockingConnection(parameters)
-
-        channel = connection.channel()
-        channel.queue_declare(queue='task_queue', durable=True)
-        channel.basic_publish(
-            exchange='',
-            routing_key='task_queue',
-            body=email,
-            properties=pika.BasicProperties(
-                delivery_mode=2,  # make message persistent
-            ))
-    
-        connection.close()
-
-        return jsonify("Job created Successfully!"),200
+    publisher.publish(email)
+    return jsonify("Job created Successfully!"),200
         
-    except Exception as e:
-        print("Failed to connect to RabbitMQ service. Message wont be sent.")
-
     
 @app.route('/hits', methods=['GET'])
 def hits():
