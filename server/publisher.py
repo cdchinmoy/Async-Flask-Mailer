@@ -1,7 +1,8 @@
 import pika
 import os
+import json
 
-def publish(email):
+def publish(data):
     try:
         credentials = pika.PlainCredentials(os.environ['RABBITMQ_USER'], os.environ['RABBITMQ_PASS'])
         parameters =  pika.ConnectionParameters(os.environ['RABBITMQ_HOST'], credentials=credentials, heartbeat=5)
@@ -12,7 +13,7 @@ def publish(email):
         channel.basic_publish(
             exchange='',
             routing_key='task_queue',
-            body=email,
+            body=json.dumps(data),
             properties=pika.BasicProperties(
                 delivery_mode=2,  # make message persistent
             ))

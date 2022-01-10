@@ -7,14 +7,13 @@ import smtplib
 msg = MIMEMultipart()
 password = "Chinmoy123!@#"
 
-def send_mail(recever):
+def send_mail(recevier, subject, body):
     msg = email.message.Message()
     msg['From'] = "chinmoy.ogmait@gmail.com"
-    msg['To'] = recever
-    msg['Subject'] = "Registration"
+    msg['To'] = recevier
+    msg['Subject'] = subject
 
     msg.add_header('Content-Type', 'text/html')
-    body = "<h1>Hi, Job created Successfully!</h1>"
     msg.set_payload(body)
     #create server
     server = smtplib.SMTP('smtp.gmail.com: 587')

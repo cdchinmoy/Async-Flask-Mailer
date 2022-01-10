@@ -1,3 +1,5 @@
 Flask
 pika
 redis
+peewee
+psycopg2

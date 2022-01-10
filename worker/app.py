@@ -2,8 +2,9 @@ import pika
 import time
 import mail_fire
 import os
+import json
 
-sleepTime = 10
+sleepTime = 20
 print(' [*] Sleeping for ', sleepTime, ' seconds.')
 time.sleep(10)
 
@@ -20,10 +21,19 @@ print(' [*] Waiting for messages.')
 
 
 def callback(ch, method, properties, body):
-    print(" [x] Received %s" % body)
-    cmd = body.decode('utf-8')
-    print(cmd)
-    mail_fire.send_mail(cmd)
+    data = json.loads(body)
+    print(data)
+    recevier = data['recevier']
+    subject = data['subject']
+    body = data['body']
+    print(recevier)
+    print(subject)
+    print(body)
+    # print(" [x] Received %s" % body)
+    # cmd = body.decode('utf-8')
+    # print(cmd)
+    # json.dumps(body)
+    mail_fire.send_mail(recevier, subject, body)
 
     print(" [x] Done")
 

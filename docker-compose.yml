@@ -13,26 +13,27 @@ services:
         - '5672:5672'
         # HTTP management UI
         - '15672:15672'
-    # networks:
-    #     - rabbitmq_python
     volumes:
         - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
         - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
 
-  worker:
-    build: worker
+  redis:
+    image: "redis:alpine"  
+    command: redis-server --appendonly yes
     volumes:
-      - ./worker:/app
+        - redis_data:/data
+
+  db:
+    image: postgres
     environment:
-      - PYTHONUNBUFFERED=1
-    # networks:
-    #   - rabbitmq_python
-    env_file:
-      - env.list
-    links:
-      - rabbitmq  
-    depends_on:
-      - rabbitmq
+        - POSTGRES_USER=polls
+        - POSTGRES_PASSWORD=hearmeroar
+        - POSTGRES_DB=polls_db
+    ports:
+        - 5433:5432
+    volumes:
+        - flask_polls_data:/var/lib/postgresql/data  
+
 
   server:
     build: server
@@ -40,18 +41,27 @@ services:
       - ./server:/app
     ports:
       - 5000:5000
-    # networks:
-    #   - rabbitmq_python  
     env_file:
       - env.list 
     links:
       - rabbitmq  
     depends_on:
       - rabbitmq
+      - redis
 
-  redis:
-    image: "redis:alpine"  
+  worker:
+    build: worker
+    volumes:
+      - ./worker:/app
+    environment:
+      - PYTHONUNBUFFERED=1
+    env_file:
+      - env.list
+    links:
+      - rabbitmq  
+    depends_on:
+      - rabbitmq    
 
-# networks:
-#     rabbitmq_python:
-#         driver: bridge      
+volumes:
+    flask_polls_data:
+    redis_data:
