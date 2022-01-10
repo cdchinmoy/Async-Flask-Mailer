@@ -7,14 +7,14 @@ ENDPOINT 1:
   Method: POST
   Descriription: New registration
   http://localhost:5000/user/registration
-  Pyload:
+  Payload:
   {
     "name":"Chinmoy Das",
     "email":"cdchinmoy@gmail.com",
     "phone":"1234567890",
     "password":"123456"
   }
-  Pyload Type: JSON (application/json)
+  Payload Type: JSON (application/json)
 
 ## Get the number of hit count:
 ENDPOINT 2: http://localhost:5000/hits
