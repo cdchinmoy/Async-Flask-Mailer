@@ -1,6 +1,6 @@
 # Asynchronous mail sneding using Flask, Rabbitmq, Redis, Postgres
 ENDPOINT 1: 
-  Method: GET
+  Method: GET <br/>
   Descriription: Get all registration
   http://localhost:5000/user/registration
   
