@@ -16,8 +16,8 @@ ENDPOINT 1:   <br/>
   } <br/>
   Payload Type: JSON (application/json) <br/><br/>
 
-## Get the number of hit count: <br/>
+### Get the number of hit count: <br/>
 ENDPOINT 2: http://localhost:5000/hits  <br/><br/>
 
-## Docker Compose Commend:  <br/>
+### Docker Compose Commend:  <br/>
 docker-compose up --build
