@@ -1,4 +1,4 @@
-# Asynchronous mail sneding using Flask, Rabbitmq, Redis, Postgres
+# Asynchronous mail sneding using Flask, Rabbitmq, Redis, PostgreSQL
 ENDPOINT 1:   <br/>
   Method: GET <br/>
   Descriription: Get all registration <br/>
