@@ -1,5 +1,20 @@
-# Asynchronous mail sneding using Flask, Rabbitmq, Redis 
-ENDPOINT 1: http://localhost:5000/create-job/<email_address>
+# Asynchronous mail sneding using Flask, Rabbitmq, Redis, Postgres
+ENDPOINT 1: 
+  Method: GET
+  Descriription: Get all registration
+  http://localhost:5000/user/registration
+  
+  Method: POST
+  Descriription: New registration
+  http://localhost:5000/user/registration
+  Pyload:
+  {
+    "name":"Chinmoy Das",
+    "email":"cdchinmoy@gmail.com",
+    "phone":"1234567890",
+    "password":"123456"
+  }
+  Pyload Type: JSON (application/json)
 
 ## Get the number of hit count:
 ENDPOINT 2: http://localhost:5000/hits
